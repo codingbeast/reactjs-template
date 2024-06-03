@@ -1,4 +1,5 @@
 import { SDKProvider, useLaunchParams } from '@tma.js/sdk-react';
+import { postEvent } from '@tma.js/sdk-react';
 import { type FC, useEffect } from 'react';
 import { App } from '@/components/App.tsx';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
@@ -20,7 +21,7 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
-
+  postEvent('web_app_expand');
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
     if (debug) {
@@ -29,6 +30,7 @@ const Inner: FC = () => {
   }, [debug]);
 
   return (
+    
       <SDKProvider acceptCustomStyles debug={debug}>
         <App/>
       </SDKProvider>
