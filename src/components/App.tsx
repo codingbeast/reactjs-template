@@ -9,6 +9,7 @@ import {
   useViewport,
 } from '@tma.js/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
+import { useExpand } from '@vkruglikov/react-telegram-web-app';
 import { type FC, useEffect, useMemo } from 'react';
 import {
   Navigate,
@@ -20,6 +21,7 @@ import {
 import { routes } from '@/navigation/routes.tsx';
 
 export const App: FC = () => {
+  const [isExpanded, expand] = useExpand();
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
@@ -48,7 +50,12 @@ export const App: FC = () => {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
-
+  useEffect(() => {
+    if (isExpanded) {
+      expand();
+    }
+  }, [isExpanded, expand]);
+  
   return (
     <AppRoot
       appearance={miniApp.isDark ? 'dark' : 'light'}
